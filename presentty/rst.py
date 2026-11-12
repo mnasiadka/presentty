@@ -193,7 +193,7 @@ class UrwidTranslator(docutils.nodes.GenericNodeVisitor):
         cols.contents.append((bullet, cols.options('pack')))
         cols.contents.append((pile, cols.options('weight', 1)))
         if self.progressives:
-            cols = urwid.AttrMap(cols, self.palette['progressive'])
+            cols = urwid.AttrMap(cols, self.slide.progressive_map)
             self.progressives[-1].append(cols)
         self._append(node, cols, 'pack')
 
@@ -357,6 +357,10 @@ class UrwidTranslator(docutils.nodes.GenericNodeVisitor):
         if 'progressive' in node.get('classes'):
             self.progressives.append(self.slide.progressives)
             self.slide.progressive_attr = self.palette['progressive']
+            self.slide.progressive_map = dict(
+                (attr, self.palette['progressive'])
+                for attr in self.palette.values())
+            self.slide.progressive_map[None] = self.palette['progressive']
 
     def depart_container(self, node):
         pile = self.stack.pop()
