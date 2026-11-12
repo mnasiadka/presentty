@@ -85,4 +85,14 @@ LIGHT_PALETTE.update({
     'string-symbol': urwid.AttrSpec('#008', 'h15'),
     'generic-heading': urwid.AttrSpec('bold, #008', 'h15'),
     'generic-prompt': urwid.AttrSpec('bold, #008', 'h15'),
+
+    # Bright greens, yellows and light grays from the dark palette
+    # wash out on white; use darker shades closer to pygments' own.
+    'keyword': urwid.AttrSpec('bold, #080', 'h15'),
+    'name-builtin': urwid.AttrSpec('#080', 'h15'),
+    'generic-inserted': urwid.AttrSpec('#080', 'h15'),
+    'name-label': urwid.AttrSpec('#660', 'h15'),
+    'name-entity': urwid.AttrSpec('bold, #666', 'h15'),
+    'string-doc': urwid.AttrSpec('#a00', 'h15'),
+    'generic-output': urwid.AttrSpec('#666', 'h15'),
 })
