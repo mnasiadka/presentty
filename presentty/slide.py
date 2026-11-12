@@ -84,6 +84,7 @@ class UrwidSlide(urwid.WidgetWrap):
         self.animations = []
         self.progressives = []
         self.progressive_attr = None
+        self.progressive_map = None
         self.progressive_state = 0
         super(UrwidSlide, self).__init__(self.map)
 
@@ -99,6 +100,13 @@ class UrwidSlide(urwid.WidgetWrap):
         for x in self.animations:
             x.resetAnimation()
 
+    def _hiddenMap(self):
+        # Map styled text (emphasis, syntax highlighting) as well as
+        # plain text, so unrevealed items are dimmed uniformly.
+        if self.progressive_map is not None:
+            return self.progressive_map
+        return {None: self.progressive_attr}
+
     def resetProgressive(self, on=False):
         if on:
             self.progressive_state = len(self.progressives)
@@ -107,7 +115,7 @@ class UrwidSlide(urwid.WidgetWrap):
         else:
             self.progressive_state = 0
             for x in self.progressives:
-                x.set_attr_map({None: self.progressive_attr})
+                x.set_attr_map(self._hiddenMap())
 
     def nextProgressive(self):
         if self.progressive_state >= len(self.progressives):
@@ -122,7 +130,7 @@ class UrwidSlide(urwid.WidgetWrap):
             return False
         self.progressive_state -= 1
         self.progressives[self.progressive_state].set_attr_map(
-            {None: self.progressive_attr})
+            self._hiddenMap())
         return True
 
     def setProgressive(self, state):
@@ -131,7 +139,7 @@ class UrwidSlide(urwid.WidgetWrap):
             if i < self.progressive_state:
                 x.set_attr_map({None: None})
             else:
-                x.set_attr_map({None: self.progressive_attr})
+                x.set_attr_map(self._hiddenMap())
 
 class AnimatedText(urwid.Text):
     def __init__(self, interval=0.5, oneshot=False):
